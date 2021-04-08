@@ -20,7 +20,7 @@ class SynchronizedZoom extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class Chart extends StatefulWidget {
-  Chart({Key key}) : super(key: key);
+  Chart({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return ChartState();
@@ -63,26 +63,34 @@ class Chart extends StatefulWidget {
 }
 
 class ChartState extends State<Chart> {
-  ChartState({Key key});
+  ChartState({Key? key});
+
+  late ZoomPanBehavior zooming;
+
+  @override
+  void initState() {
+    zooming = ZoomPanBehavior(
+        enablePanning: true,
+        enablePinching: true,
+        enableDoubleTapZooming: true,
+        zoomMode: ZoomMode.x);
+    super.initState();
+  }
 
   void refreshChart() {
     setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return SfCartesianChart(
         backgroundColor: Colors.white,
-        zoomPanBehavior: ZoomPanBehavior(
-          enablePanning: true,
-          enablePinching: true,
-          enableDoubleTapZooming: true,
-          zoomMode: ZoomMode.x
-        ),
+        zoomPanBehavior: zooming,
         onZooming: (ZoomPanArgs args) {
           if (args.axis.name == 'primaryXAxis') {
             zoomP = args.currentZoomPosition;
             zoomF = args.currentZoomFactor;
-            cartesianChartKey.currentState.chartRefresh();
+            cartesianChartKey.currentState!.chartRefresh();
           }
         },
         primaryXAxis: CategoryAxis(
@@ -113,7 +121,7 @@ class ChartState extends State<Chart> {
 }
 
 class CartesianChart extends StatefulWidget {
-  CartesianChart({Key key}) : super(key: key);
+  CartesianChart({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return CartesianChartState();
@@ -121,7 +129,20 @@ class CartesianChart extends StatefulWidget {
 }
 
 class CartesianChartState extends State<CartesianChart> {
-  CartesianChartState({Key key});
+  CartesianChartState({Key? key});
+
+  late ZoomPanBehavior zooming;
+
+  @override
+  void initState() {
+    zooming = ZoomPanBehavior(
+            enablePanning: true,
+            enablePinching: true,
+            enableDoubleTapZooming: true,
+            zoomMode: ZoomMode.x);
+    super.initState();
+  }
+
   void chartRefresh() {
     setState(() {});
   }
@@ -130,20 +151,16 @@ class CartesianChartState extends State<CartesianChart> {
   Widget build(BuildContext context) {
     return SfCartesianChart(
         backgroundColor: Colors.white,
-        zoomPanBehavior: ZoomPanBehavior(
-          enablePanning: true,
-          enablePinching: true,
-          enableDoubleTapZooming: true,
-          zoomMode: ZoomMode.x
-        ),
+        zoomPanBehavior: zooming,
         onZooming: (ZoomPanArgs args) {
           if (args.axis.name == 'primaryXAxis') {
             zoomP = args.currentZoomPosition;
             zoomF = args.currentZoomFactor;
-            chartKey.currentState.refreshChart();
+            chartKey.currentState!.refreshChart();
           }
         },
-        primaryXAxis: CategoryAxis(zoomFactor: zoomF, zoomPosition: zoomP, name:'primaryXAxis'),
+        primaryXAxis: CategoryAxis(
+            zoomFactor: zoomF, zoomPosition: zoomP, name: 'primaryXAxis'),
         // Chart title
         title: ChartTitle(text: 'Chart 2'),
         tooltipBehavior: TooltipBehavior(enable: true),
