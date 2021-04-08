@@ -64,28 +64,29 @@ class Chart extends StatefulWidget {
 
 class ChartState extends State<Chart> {
   ChartState({Key? key});
-
-  late ZoomPanBehavior zooming;
-
-  @override
-  void initState() {
-    zooming = ZoomPanBehavior(
-        enablePanning: true,
-        enablePinching: true,
-        enableDoubleTapZooming: true,
-        zoomMode: ZoomMode.x);
-    super.initState();
-  }
+  late ZoomPanBehavior _zoomPanBehavior;
+  late TooltipBehavior _tooltipBehavior;
 
   void refreshChart() {
     setState(() {});
   }
 
   @override
+  void initState() {
+    _zoomPanBehavior = ZoomPanBehavior(
+        enablePanning: true,
+        enablePinching: true,
+        enableDoubleTapZooming: true,
+        zoomMode: ZoomMode.x);
+    _tooltipBehavior = TooltipBehavior(enable: true);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SfCartesianChart(
         backgroundColor: Colors.white,
-        zoomPanBehavior: zooming,
+        zoomPanBehavior: _zoomPanBehavior,
         onZooming: (ZoomPanArgs args) {
           if (args.axis.name == 'primaryXAxis') {
             zoomP = args.currentZoomPosition;
@@ -97,7 +98,7 @@ class ChartState extends State<Chart> {
             zoomFactor: zoomF, zoomPosition: zoomP, name: 'primaryXAxis'),
         primaryYAxis: NumericAxis(name: 'primaryYAxis'),
         title: ChartTitle(text: 'Chart 1'),
-        tooltipBehavior: TooltipBehavior(enable: true),
+        tooltipBehavior: _tooltipBehavior,
         series: <LineSeries<SalesData, String>>[
           LineSeries<SalesData, String>(
               dataSource: <SalesData>[
@@ -131,27 +132,29 @@ class CartesianChart extends StatefulWidget {
 class CartesianChartState extends State<CartesianChart> {
   CartesianChartState({Key? key});
 
-  late ZoomPanBehavior zooming;
-
-  @override
-  void initState() {
-    zooming = ZoomPanBehavior(
-            enablePanning: true,
-            enablePinching: true,
-            enableDoubleTapZooming: true,
-            zoomMode: ZoomMode.x);
-    super.initState();
-  }
+  late ZoomPanBehavior _zoomPanBehavior;
+  late TooltipBehavior _tooltipBehavior;
 
   void chartRefresh() {
     setState(() {});
   }
 
   @override
+  void initState() {
+    _zoomPanBehavior = ZoomPanBehavior(
+            enablePanning: true,
+            enablePinching: true,
+            enableDoubleTapZooming: true,
+            zoomMode: ZoomMode.x);
+    _tooltipBehavior = TooltipBehavior(enable: true);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SfCartesianChart(
         backgroundColor: Colors.white,
-        zoomPanBehavior: zooming,
+        zoomPanBehavior: _zoomPanBehavior,
         onZooming: (ZoomPanArgs args) {
           if (args.axis.name == 'primaryXAxis') {
             zoomP = args.currentZoomPosition;
@@ -163,7 +166,7 @@ class CartesianChartState extends State<CartesianChart> {
             zoomFactor: zoomF, zoomPosition: zoomP, name: 'primaryXAxis'),
         // Chart title
         title: ChartTitle(text: 'Chart 2'),
-        tooltipBehavior: TooltipBehavior(enable: true),
+        tooltipBehavior: _tooltipBehavior,
         series: <LineSeries<SalesData, String>>[
           LineSeries<SalesData, String>(
               dataSource: <SalesData>[
