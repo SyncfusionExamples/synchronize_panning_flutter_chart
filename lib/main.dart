@@ -20,7 +20,7 @@ class SynchronizedZoom extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class Chart extends StatefulWidget {
-  Chart({Key key}) : super(key: key);
+  Chart({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return ChartState();
@@ -63,9 +63,9 @@ class Chart extends StatefulWidget {
 }
 
 class ChartState extends State<Chart> {
-  ChartState({Key key});
-  ZoomPanBehavior _zoomPanBehavior;
-  TooltipBehavior _tooltipBehavior;
+  ChartState({Key? key});
+  late ZoomPanBehavior _zoomPanBehavior;
+  late TooltipBehavior _tooltipBehavior;
 
   void refreshChart() {
     setState(() {});
@@ -91,7 +91,7 @@ class ChartState extends State<Chart> {
           if (args.axis.name == 'primaryXAxis') {
             zoomP = args.currentZoomPosition;
             zoomF = args.currentZoomFactor;
-            cartesianChartKey.currentState.chartRefresh();
+            cartesianChartKey.currentState!.chartRefresh();
           }
         },
         primaryXAxis: CategoryAxis(
@@ -122,7 +122,7 @@ class ChartState extends State<Chart> {
 }
 
 class CartesianChart extends StatefulWidget {
-  CartesianChart({Key key}) : super(key: key);
+  CartesianChart({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return CartesianChartState();
@@ -130,10 +130,11 @@ class CartesianChart extends StatefulWidget {
 }
 
 class CartesianChartState extends State<CartesianChart> {
-  CartesianChartState({Key key});
+  CartesianChartState({Key? key});
 
-  ZoomPanBehavior _zoomPanBehavior;
-  TooltipBehavior _tooltipBehavior;
+  late ZoomPanBehavior _zoomPanBehavior;
+  late TooltipBehavior _tooltipBehavior;
+
   void chartRefresh() {
     setState(() {});
   }
@@ -158,7 +159,7 @@ class CartesianChartState extends State<CartesianChart> {
           if (args.axis.name == 'primaryXAxis') {
             zoomP = args.currentZoomPosition;
             zoomF = args.currentZoomFactor;
-            chartKey.currentState.refreshChart();
+            chartKey.currentState!.refreshChart();
           }
         },
         primaryXAxis: CategoryAxis(
