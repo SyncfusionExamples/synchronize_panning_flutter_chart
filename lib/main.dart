@@ -88,7 +88,7 @@ class ChartState extends State<Chart> {
         backgroundColor: Colors.white,
         zoomPanBehavior: _zoomPanBehavior,
         onZooming: (ZoomPanArgs args) {
-          if (args.axis.name == 'primaryXAxis') {
+          if (args.axis!.name == 'primaryXAxis') {
             zoomP = args.currentZoomPosition;
             zoomF = args.currentZoomFactor;
             cartesianChartKey.currentState!.chartRefresh();
@@ -142,10 +142,10 @@ class CartesianChartState extends State<CartesianChart> {
   @override
   void initState() {
     _zoomPanBehavior = ZoomPanBehavior(
-            enablePanning: true,
-            enablePinching: true,
-            enableDoubleTapZooming: true,
-            zoomMode: ZoomMode.x);
+        enablePanning: true,
+        enablePinching: true,
+        enableDoubleTapZooming: true,
+        zoomMode: ZoomMode.x);
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
@@ -156,7 +156,7 @@ class CartesianChartState extends State<CartesianChart> {
         backgroundColor: Colors.white,
         zoomPanBehavior: _zoomPanBehavior,
         onZooming: (ZoomPanArgs args) {
-          if (args.axis.name == 'primaryXAxis') {
+          if (args.axis!.name == 'primaryXAxis') {
             zoomP = args.currentZoomPosition;
             zoomF = args.currentZoomFactor;
             chartKey.currentState!.refreshChart();
