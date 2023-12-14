@@ -30,6 +30,8 @@ double zoomP = 0.5;
 double zoomF = 0.2;
 double chartZoomP = 0.5;
 double chartZoomF = 0.2;
+CategoryAxisController? axisController1;
+CategoryAxisController? axisController2;
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
@@ -67,10 +69,6 @@ class ChartState extends State<Chart> {
   late ZoomPanBehavior _zoomPanBehavior;
   late TooltipBehavior _tooltipBehavior;
 
-  void refreshChart() {
-    setState(() {});
-  }
-
   @override
   void initState() {
     _zoomPanBehavior = ZoomPanBehavior(
@@ -91,11 +89,17 @@ class ChartState extends State<Chart> {
           if (args.axis!.name == 'primaryXAxis') {
             zoomP = args.currentZoomPosition;
             zoomF = args.currentZoomFactor;
-            cartesianChartKey.currentState!.chartRefresh();
+            axisController2!.zoomFactor = zoomF;
+            axisController2!.zoomPosition = zoomP;
           }
         },
         primaryXAxis: CategoryAxis(
-            zoomFactor: zoomF, zoomPosition: zoomP, name: 'primaryXAxis'),
+            onRendererCreated: (CategoryAxisController controller) {
+              axisController1 = controller;
+            },
+            initialZoomFactor: zoomF,
+            initialZoomPosition: zoomP,
+            name: 'primaryXAxis'),
         primaryYAxis: NumericAxis(name: 'primaryYAxis'),
         title: ChartTitle(text: 'Chart 1'),
         tooltipBehavior: _tooltipBehavior,
@@ -135,10 +139,6 @@ class CartesianChartState extends State<CartesianChart> {
   late ZoomPanBehavior _zoomPanBehavior;
   late TooltipBehavior _tooltipBehavior;
 
-  void chartRefresh() {
-    setState(() {});
-  }
-
   @override
   void initState() {
     _zoomPanBehavior = ZoomPanBehavior(
@@ -159,11 +159,17 @@ class CartesianChartState extends State<CartesianChart> {
           if (args.axis!.name == 'primaryXAxis') {
             zoomP = args.currentZoomPosition;
             zoomF = args.currentZoomFactor;
-            chartKey.currentState!.refreshChart();
+            axisController1!.zoomFactor = zoomF;
+            axisController1!.zoomPosition = zoomP;
           }
         },
         primaryXAxis: CategoryAxis(
-            zoomFactor: zoomF, zoomPosition: zoomP, name: 'primaryXAxis'),
+            onRendererCreated: (CategoryAxisController controller) {
+              axisController2 = controller;
+            },
+            initialZoomFactor: zoomF,
+            initialZoomPosition: zoomP,
+            name: 'primaryXAxis'),
         // Chart title
         title: ChartTitle(text: 'Chart 2'),
         tooltipBehavior: _tooltipBehavior,
